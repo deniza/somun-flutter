@@ -13,6 +13,9 @@ class SomunIncomingFunctionHandler {
     if (module == 'Auth') {
       somun.auth.handleIncomingFunction(function, params);
     }
+    else if (module == 'Account') {
+      somun.account.handleIncomingFunction(function, params);
+    }
     
   }
 
