@@ -16,7 +16,9 @@ void main() async {
   };
 
   await somun.connect(host, port);
-  somun.auth.loginUsingIdPassword(playerId, password);
+  somun.auth.loginUsingIdPassword(playerId, password, responseHandler: (params) {
+    print('Login Response: $params');
+  });
 
   await Future.delayed(const Duration(seconds: 2));
 
