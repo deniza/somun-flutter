@@ -22,6 +22,20 @@ class SomunAccount {
 
   }
 
+  void changeCredentials(String username, String password, {Function? responseHandler}) {
+    
+    _responseHandlers['changeCredentialsResponse'] = responseHandler;
+    
+    somun.call('Account', 'changeCredentials', [username, password]);
+
+  }
+
+  void setNotificationToken(String token) {
+    
+    somun.call('Account', 'setNotificationToken', [token]);
+
+  }
+
   void handleIncomingFunction(String function, List params) {
     
     _responseHandlers[function]?.call(params);
