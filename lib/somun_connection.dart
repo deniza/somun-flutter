@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'somun_incoming.dart';
+import 'somun_flutter.dart';
 import 'read_buffer.dart';
 import 'packet_builder.dart';
 import 'somun_param_types.dart';
@@ -11,7 +11,6 @@ class SomunConnection {
 
   final Duration defaultConnectionTimeout = const Duration(seconds: 4);
 
-  final SomunIncomingFunctionHandler _incomingFunctionHandler = SomunIncomingFunctionHandler();
   final Function onDisconnect;
   final Function onConnect;
 
@@ -30,7 +29,15 @@ class SomunConnection {
         return;
       }
       IncomingFunctionParser(packet).parse((functionName, params){        
-        _incomingFunctionHandler.incomingFunction(functionName, params);
+
+        final parts = functionName.split('_');
+        final module = parts[0];
+        final function = parts[1];
+
+        print("Incoming Function Call: ${module}_$function $params");
+
+        somun.handleIncomingFunction(module, function, params);
+
       });
     });
 

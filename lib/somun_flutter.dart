@@ -1,8 +1,11 @@
 library somun_flutter;
 
+import 'dart:collection';
+
 import 'package:somun_flutter/somun_account.dart';
 import 'package:somun_flutter/somun_auth.dart';
 import 'package:somun_flutter/somun_connection.dart';
+import 'package:somun_flutter/somun_interface.dart';
 import 'package:somun_flutter/somun_rpc.dart';
 
 final Somun somun = Somun._();
@@ -13,15 +16,23 @@ class Somun {
   late final SomunAccount account;
   late final SomunRpc rpc;
 
+  HashMap<String, SomunInterface> interfaces = HashMap();
+  
   SomunConnection? _connection;
 
   Function onConnect = () {};
   Function onDisconnect = () {};
   
   Somun._() {
+
     auth = SomunAuth();
     account = SomunAccount();
     rpc = SomunRpc();
+
+    interfaces[auth.moduleName] = auth;
+    interfaces[account.moduleName] = account;
+    interfaces[rpc.moduleName] = rpc;
+
   }
 
   Future connect(String host, int port) {
@@ -47,6 +58,10 @@ class Somun {
     
     _connection?.call(module, functionName, params);
 
+  }
+
+  void handleIncomingFunction(String module, String function, List params) {
+    interfaces[module]?.handleIncomingFunction(function, params);
   }
   
 }
