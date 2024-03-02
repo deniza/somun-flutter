@@ -17,14 +17,12 @@ void main() async {
 
   await somun.connect(host, port);
 
-  somun.account.createGuestAccount(
-    acceptHandler: (params) {
-      print('Guest account created: $params');
-    },
-    rejectHandler: (params) {
-      print('Guest account creation failed: $params');
-    }
-  );
+  somun.auth.loginUsingIdPassword(
+    playerId,
+    password,
+    responseHandler: (params) {
+      print('Logged in: $params');
+  });
 
   await Future.delayed(const Duration(seconds: 2));
 

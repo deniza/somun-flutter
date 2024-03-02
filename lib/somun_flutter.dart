@@ -2,11 +2,11 @@ library somun_flutter;
 
 import 'dart:collection';
 
-import 'package:somun_flutter/somun_account.dart';
-import 'package:somun_flutter/somun_auth.dart';
+import 'package:somun_flutter/interface/somun_account.dart';
+import 'package:somun_flutter/interface/somun_auth.dart';
 import 'package:somun_flutter/somun_connection.dart';
-import 'package:somun_flutter/somun_interface.dart';
-import 'package:somun_flutter/somun_rpc.dart';
+import 'package:somun_flutter/interface/somun_interface.dart';
+import 'package:somun_flutter/interface/somun_rpc.dart';
 
 final Somun somun = Somun._();
 

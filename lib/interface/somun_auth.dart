@@ -1,4 +1,4 @@
-import 'package:somun_flutter/somun_interface.dart';
+import 'package:somun_flutter/interface/somun_interface.dart';
 
 class SomunAuth extends SomunInterface {
 
