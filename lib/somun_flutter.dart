@@ -1,17 +1,29 @@
 library somun_flutter;
 
+import 'package:somun_flutter/somun_connection.dart';
+
 class Somun {
 
+  static SomunConnection? _connection;
+
   static void connect(String host, int port, void Function() onConnect, void Function() onDisconnect) {
-    throw UnimplementedError();
+
+    _connection = SomunConnection(onConnect, onDisconnect);
+    _connection!.connect(host, port);
+
   }
 
   static void disconnect() {
-    throw UnimplementedError();
+    
+    _connection?.disconnect();
+    _connection = null;
+
   }
 
   static void call(String functionName, List params) {
-    throw UnimplementedError();
+    
+    _connection?.call(functionName, params);
+
   }
   
 }
