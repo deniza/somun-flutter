@@ -1,14 +1,15 @@
-import 'package:somun_flutter/somun_flutter.dart';
 import 'package:somun_flutter/somun_interface.dart';
 
 class SomunAccount extends SomunInterface {
+
+  SomunAccount() : super("Account");
 
   void createGuestAccount({Function? acceptHandler, Function? rejectHandler}) {
     
     setResponseHandler("createGuestAccountAccepted", acceptHandler);
     setResponseHandler("createGuestAccountRejected", rejectHandler);
     
-    somun.call('Account', 'createGuestAccount', []);
+    call('createGuestAccount', []);
 
   }
 
@@ -17,7 +18,7 @@ class SomunAccount extends SomunInterface {
     setResponseHandler("createAccountAccepted", acceptHandler);
     setResponseHandler("createAccountRejected", rejectHandler);
 
-    somun.call('Account', 'createAccount', [username, password]);
+    call('createAccount', [username, password]);
 
   }
 
@@ -25,13 +26,13 @@ class SomunAccount extends SomunInterface {
     
     setResponseHandler("changeCredentialsResponse", responseHandler);
     
-    somun.call('Account', 'changeCredentials', [username, password]);
+    call('changeCredentials', [username, password]);
 
   }
 
   void setNotificationToken(String token) {
     
-    somun.call('Account', 'setNotificationToken', [token]);
+    call('setNotificationToken', [token]);
 
   }
 

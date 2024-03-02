@@ -1,24 +1,18 @@
-import 'package:somun_flutter/somun_flutter.dart';
+import 'package:somun_flutter/somun_interface.dart';
 
-class SomunRpc {
+class SomunRpc extends SomunInterface {
 
-  final Map<String, Function?> _responseHandlers = {};
+  SomunRpc() : super("Rpc");
 
-  void call(String functionName, String jsonData) {
+  void rpc(String functionName, String jsonData) {
 
-    somun.call('Rpc', "call", [functionName, jsonData]);
+    call("call", [functionName, jsonData]);
 
   }
 
   void test(String p1, int p2) {
 
-    somun.call('Rpc', "test", [p1, p2]);
-
-  }
-
-  void handleIncomingFunction(String function, List params) {
-
-    _responseHandlers[function]?.call(params);
+    call("test", [p1, p2]);
 
   }
 

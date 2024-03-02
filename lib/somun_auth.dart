@@ -1,13 +1,14 @@
-import 'package:somun_flutter/somun_flutter.dart';
 import 'package:somun_flutter/somun_interface.dart';
 
 class SomunAuth extends SomunInterface {
+
+  SomunAuth() : super("Auth");
 
   void loginUsingIdPassword(int playerId, String password, {Function? responseHandler}) {
     
     setResponseHandler("loginResponse", responseHandler);
     
-    somun.call('Auth', 'loginUsingIdPassword', [playerId, password]);
+    call('loginUsingIdPassword', [playerId, password]);
 
   }
 
@@ -15,7 +16,7 @@ class SomunAuth extends SomunInterface {
     
     setResponseHandler("facebookLoginResponse", responseHandler);
     
-    somun.call('Auth', 'loginUsingFacebook', [accessToken]);
+    call('loginUsingFacebook', [accessToken]);
 
   }
 
