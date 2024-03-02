@@ -2,13 +2,13 @@ import 'package:somun_flutter/somun_flutter.dart';
 
 void main() {
 
-  Somun.connect("localhost", 16666, () {
+  somun.connect("localhost", 16666, () {
     print("Connected");
 
-    Somun.call("Rpc_test", ["hello", 1]);
+    somun.auth.loginUsingIdPassword(1, "password");
 
     Future.delayed(Duration(seconds: 2), () {
-      Somun.disconnect();      
+      somun.disconnect();      
     });
 
   }, () {
