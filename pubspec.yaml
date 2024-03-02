@@ -1,0 +1,13 @@
+name: somun_flutter
+description: A starting point for Dart libraries or applications.
+version: 1.0.0
+repository: https://github.com/deniza/somun-flutter
+
+environment:
+  sdk: ^3.2.6
+
+# Add regular dependencies here.
+dependencies:
+
+dev_dependencies:
+  lints: ^2.1.0
