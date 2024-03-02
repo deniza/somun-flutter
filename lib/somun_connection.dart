@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:somun_flutter/interface/somun_interface.dart';
+
 import 'somun_flutter.dart';
 import 'read_buffer.dart';
 import 'packet_builder.dart';
@@ -36,7 +38,7 @@ class SomunConnection {
 
         print("Incoming Function Call: ${module}_$function $params");
 
-        somun.handleIncomingFunction(module, function, params);
+        SomunInterface.handleFunctionCall(module, function, params);
 
       });
     });

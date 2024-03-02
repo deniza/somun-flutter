@@ -2,10 +2,14 @@ import 'package:somun_flutter/somun_flutter.dart';
 
 abstract class SomunInterface {
 
+  static Map<String, SomunInterface> _interfaces = Map();
+
   final String moduleName;
   final Map<String, Function?> _responseHandlers = {};
 
-  SomunInterface(this.moduleName);
+  SomunInterface(this.moduleName) {
+    _interfaces[moduleName] = this;
+  }
 
   void call(String function, List params) {
     somun.call(moduleName, function, params);
@@ -15,8 +19,8 @@ abstract class SomunInterface {
     _responseHandlers[function] = handler;
   }
   
-  void handleIncomingFunction(String function, List params) {    
-    _responseHandlers[function]?.call(params);
+  static void handleFunctionCall(String module, String function, List params) {
+    _interfaces[module]?._responseHandlers[function]?.call(params);
   }
 
 }
