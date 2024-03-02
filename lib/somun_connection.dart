@@ -8,16 +8,17 @@ import 'somun_param_types.dart';
 
 class SomunConnection {
 
-  final Duration defaultConnectionTimeout = const Duration(seconds: 8);
+  final Duration defaultConnectionTimeout = const Duration(seconds: 4);
 
-  final SomunIncomingFunctionHandler _incomingFunctionHandler;
+  final SomunIncomingFunctionHandler _incomingFunctionHandler = SomunIncomingFunctionHandler();
   final Function onDisconnect;
+  final Function onConnect;
 
   Socket? _socket;
   StreamSubscription<Uint8List>? _socketSubscription;
   bool _forceDisconnected = false;
 
-  SomunConnection(this._incomingFunctionHandler, this.onDisconnect);
+  SomunConnection(this.onConnect, this.onDisconnect);
 
   Future connect(String hostAddr, int port) async {
 
@@ -35,6 +36,8 @@ class SomunConnection {
     try {
 
       _socket = await Socket.connect(hostAddr, port, timeout: defaultConnectionTimeout);
+
+      onConnect.call();
 
       if (_forceDisconnected) {
         _socket?.destroy();
@@ -117,6 +120,8 @@ class SomunConnection {
       _socket = null;      
     }
 
+    onDisconnect.call();
+
   }
 
   bool isConnected() => _socket != null;
@@ -177,6 +182,10 @@ class IncomingFunctionParser {
 
 }
 
-abstract class SomunIncomingFunctionHandler {
-  void incomingFunction(String functionName, List params);
+class SomunIncomingFunctionHandler {
+  
+  void incomingFunction(String functionName, List params) {
+    throw UnimplementedError();
+  }  
+
 }
