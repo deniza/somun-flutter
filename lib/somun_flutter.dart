@@ -1,26 +1,36 @@
 library somun_flutter;
 
+import 'package:somun_flutter/somun_auth.dart';
 import 'package:somun_flutter/somun_connection.dart';
+
+final Somun somun = Somun._();
 
 class Somun {
 
-  static SomunConnection? _connection;
+  SomunConnection? _connection;
+  late final SomunAuth _auth;
+  
+  SomunAuth get auth => _auth;
 
-  static void connect(String host, int port, void Function() onConnect, void Function() onDisconnect) {
+  Somun._() {
+    _auth = SomunAuth();
+  }
+
+  void connect(String host, int port, void Function() onConnect, void Function() onDisconnect) {
 
     _connection = SomunConnection(onConnect, onDisconnect);
     _connection!.connect(host, port);
 
   }
 
-  static void disconnect() {
+  void disconnect() {
     
     _connection?.disconnect();
     _connection = null;
 
   }
 
-  static void call(String functionName, List params) {
+  void call(String functionName, List params) {
     
     _connection?.call(functionName, params);
 
