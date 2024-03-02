@@ -9,6 +9,9 @@ class Somun {
 
   SomunConnection? _connection;
   late final SomunAuth _auth;
+
+  Function onConnect = () {};
+  Function onDisconnect = () {};
   
   SomunAuth get auth => _auth;
 
@@ -16,10 +19,15 @@ class Somun {
     _auth = SomunAuth();
   }
 
-  void connect(String host, int port, void Function() onConnect, void Function() onDisconnect) {
+  Future connect(String host, int port) {
 
-    _connection = SomunConnection(onConnect, onDisconnect);
-    _connection!.connect(host, port);
+    _connection = SomunConnection(() {
+      onConnect.call();
+    }, () {
+      onDisconnect.call();
+    });
+    
+    return _connection!.connect(host, port);
 
   }
 
@@ -30,9 +38,9 @@ class Somun {
 
   }
 
-  void call(String functionName, List params) {
+  void call(String module, String functionName, List params) {
     
-    _connection?.call(functionName, params);
+    _connection?.call(module, functionName, params);
 
   }
   

@@ -1,20 +1,25 @@
 import 'package:somun_flutter/somun_flutter.dart';
 
-void main() {
+void main() async {
 
-  somun.connect("localhost", 16666, () {
-    print("Connected");
+  final host = 'localhost';
+  final port = 16666;
+  final playerId = 1;
+  final password = '';
 
-    somun.auth.loginUsingIdPassword(1, "password");
+  somun.onConnect = () {
+    print('Connected');
+  };
 
-    Future.delayed(Duration(seconds: 2), () {
-      somun.disconnect();      
-    });
+  somun.onDisconnect = () {
+    print('Disconnected');
+  };
 
-  }, () {
-    print("Disconnected");
-  });
+  await somun.connect(host, port);
+  somun.auth.loginUsingIdPassword(playerId, password);
 
+  await Future.delayed(const Duration(seconds: 2));
 
+  somun.disconnect();
 
 }

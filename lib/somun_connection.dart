@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'somun_incoming.dart';
 import 'read_buffer.dart';
 import 'packet_builder.dart';
 import 'somun_param_types.dart';
@@ -73,11 +74,11 @@ class SomunConnection {
 
   }
 
-  void call(String functionName, List params) {
+  void call(String module, String functionName, List params) {
 
-    print("Calling Function: $functionName $params");
+    print("Calling Function: ${module}_$functionName $params");
 
-    final OutgoingPacketBuilder builder = OutgoingPacketBuilder(functionName);
+    final OutgoingPacketBuilder builder = OutgoingPacketBuilder("${module}_$functionName");
     
     for (final v in params) {
 
@@ -94,7 +95,7 @@ class SomunConnection {
         builder.pushIntListParam(v);
       }
       else {
-        throw Exception("Somun SomunClient.call parameter type not implemented for $functionName");
+        throw Exception("Somun SomunClient.call parameter type not implemented for ${module}_$functionName");
       }
 
     }
@@ -179,13 +180,5 @@ class IncomingFunctionParser {
       return arrayParams;
     }
   }
-
-}
-
-class SomunIncomingFunctionHandler {
-  
-  void incomingFunction(String functionName, List params) {
-    throw UnimplementedError();
-  }  
 
 }
