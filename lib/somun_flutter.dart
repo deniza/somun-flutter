@@ -2,6 +2,7 @@ library somun_flutter;
 
 import 'package:somun_flutter/interface/somun_account.dart';
 import 'package:somun_flutter/interface/somun_auth.dart';
+import 'package:somun_flutter/interface/somun_friends.dart';
 import 'package:somun_flutter/somun_connection.dart';
 import 'package:somun_flutter/interface/somun_rpc.dart';
 
@@ -12,6 +13,7 @@ class Somun {
   late final SomunAuth auth;
   late final SomunAccount account;
   late final SomunRpc rpc;
+  late final SomunFriends friends;
 
   SomunConnection? _connection;
 
@@ -22,6 +24,7 @@ class Somun {
     auth = SomunAuth();
     account = SomunAccount();
     rpc = SomunRpc();
+    friends = SomunFriends();
   }
 
   Future connect(String host, int port) {
