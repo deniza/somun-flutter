@@ -2,15 +2,21 @@ import 'package:somun_flutter/somun_flutter.dart';
 
 class SomunAuth {
 
-  final Map<String, Function> _responseHandlers = {};
+  final Map<String, Function?> _responseHandlers = {};
 
   void loginUsingIdPassword(int playerId, String password, {Function? responseHandler}) {
     
-    if (responseHandler != null) {
-      _responseHandlers['loginResponse'] = responseHandler;
-    }
+    _responseHandlers['loginResponse'] = responseHandler;
     
     somun.call('Auth', 'loginUsingIdPassword', [playerId, password]);
+
+  }
+
+  void loginUsingFacebook(String accessToken, {Function? responseHandler}) {
+    
+    _responseHandlers['facebookLoginResponse'] = responseHandler;
+    
+    somun.call('Auth', 'loginUsingFacebook', [accessToken]);
 
   }
 
