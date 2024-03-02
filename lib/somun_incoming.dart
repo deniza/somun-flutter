@@ -16,6 +16,9 @@ class SomunIncomingFunctionHandler {
     else if (module == 'Account') {
       somun.account.handleIncomingFunction(function, params);
     }
+    else if (module == 'Rpc') {
+      somun.rpc.handleIncomingFunction(function, params);
+    }
     
   }
 
