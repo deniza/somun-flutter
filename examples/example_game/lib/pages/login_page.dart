@@ -1,4 +1,6 @@
+import 'package:example_game/pages/lobby_page.dart';
 import 'package:flutter/material.dart';
+import 'package:example_game/managers/game_manager.dart';
 
 class LoginPage extends StatelessWidget {
 
@@ -8,7 +10,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text('Game Login'),
+          title: const Text('Account Login'),
         ),
         body: const LoginForm(),
       );
@@ -42,7 +44,7 @@ class _LoginFormState extends State<LoginForm> {
               decoration: const InputDecoration(labelText: 'Username'),
               validator: (value) {
                 if (value!.isEmpty) {
-                  return 'Please enter your username';
+                  return 'Please enter your playerId';
                 }
                 return null;
               },
@@ -51,23 +53,16 @@ class _LoginFormState extends State<LoginForm> {
               controller: _passwordController,
               decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter your password';
-                }
-                return null;
-              },
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    // If the form is valid, display a Snackbar.
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Processing Data')),
+                      const SnackBar(content: Text('Logging in...')),
                     );
-                    // Here you would send the username and password to your server for validation
+                    _login(_usernameController.text, _passwordController.text);
                   }
                 },
                 child: const Text('Login'),
@@ -78,4 +73,26 @@ class _LoginFormState extends State<LoginForm> {
       ),
     );
   }
+
+  void _login(String playerId, String password) async {
+
+    gameManager.login(playerId, password, (success) {
+      if (success) {
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const LobbyPage()
+        ));
+
+      } else {
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Login failed. Please try again.')),
+        );
+
+      }
+    });
+
+  }
+
 }
