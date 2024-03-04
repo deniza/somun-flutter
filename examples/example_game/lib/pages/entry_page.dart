@@ -1,10 +1,17 @@
+import 'package:example_game/managers/game_manager.dart';
+import 'package:example_game/pages/lobby_page.dart';
 import 'package:example_game/pages/login_page.dart';
 import 'package:example_game/pages/new_account_page.dart';
 import 'package:flutter/material.dart';
 
-class EntryPage extends StatelessWidget {
+class EntryPage extends StatefulWidget {
   const EntryPage({super.key});
 
+  @override
+  State<EntryPage> createState() => _EntryPageState();
+}
+
+class _EntryPageState extends State<EntryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,6 +62,24 @@ class EntryPage extends StatelessWidget {
   }
 
   void _createGuestAccount() {
+
+    gameManager.createGuestAccount((accepted) {
+
+      if (accepted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const LobbyPage()
+        ));
+      } else {
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to create guest account')),
+        );
+
+      }
+
+    });
+
   }
 
 }

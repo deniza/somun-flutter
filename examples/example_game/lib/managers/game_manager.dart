@@ -9,20 +9,50 @@ class GameManager {
 
   GameManager._();
 
-  void login(String username, String password, Function loginResponse) async {
+  void connect() {
+    somun.connect(_host, _port);
+  }
 
-    await somun.connect(_host, _port);
+  void login(String username, String password, Function response) async {
 
     somun.auth.loginUsingUsernamePassword(
       username,
       password,
       responseHandler: (params) {        
         if (params[0] == 1) {
-          loginResponse(true);
+          response(true);
         } else {
-          loginResponse(false);
+          response(false);
         }
     });
+
+  }
+
+  void createGuestAccount(Function response) async {
+
+    somun.account.createGuestAccount(
+      acceptHandler: (params) {
+        response(true);
+      },
+      rejectHandler: (params) {
+        response(false);
+      }
+    );
+
+  }
+
+  void createAccount(String username, String password, Function response) async {
+
+    somun.account.createAccount(
+      username,
+      password,
+      acceptHandler: (params) {
+        response(true);
+      },
+      rejectHandler: (params) {
+        response(false);
+      }
+    );
 
   }
 

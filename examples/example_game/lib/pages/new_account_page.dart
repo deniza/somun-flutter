@@ -1,3 +1,5 @@
+import 'package:example_game/managers/game_manager.dart';
+import 'package:example_game/pages/lobby_page.dart';
 import 'package:flutter/material.dart';
 
 class NewAccountPage extends StatelessWidget {
@@ -51,12 +53,6 @@ class _LoginFormState extends State<LoginForm> {
               controller: _passwordController,
               decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter your password';
-                }
-                return null;
-              },
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -67,10 +63,10 @@ class _LoginFormState extends State<LoginForm> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Processing Data')),
                     );
-                    // Here you would send the username and password to your server for validation
+                    _createNewAccount(_usernameController.text, _passwordController.text);
                   }
                 },
-                child: const Text('Login'),
+                child: const Text('Register'),
               ),
             ),
           ],
@@ -78,4 +74,24 @@ class _LoginFormState extends State<LoginForm> {
       ),
     );
   }
+
+  void _createNewAccount(username, password) {
+  
+    gameManager.createAccount(username, password, (success) {
+      if (success) {
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const LobbyPage()
+        ));
+
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to create account')),
+        );
+      }
+    });
+  
+  }
+
 }

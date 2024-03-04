@@ -1,7 +1,9 @@
+import 'package:example_game/managers/game_manager.dart';
 import 'package:example_game/pages/entry_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  gameManager.connect();
   runApp(const MyApp());
 }
 
