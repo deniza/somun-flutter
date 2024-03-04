@@ -4,7 +4,6 @@ import 'dart:typed_data';
 
 import 'package:somun_flutter/interface/somun_interface.dart';
 
-import 'somun_flutter.dart';
 import 'read_buffer.dart';
 import 'packet_builder.dart';
 import 'somun_param_types.dart';
