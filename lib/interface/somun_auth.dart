@@ -12,6 +12,14 @@ class SomunAuth extends SomunInterface {
 
   }
 
+  void loginUsingUsernamePassword(String username, String password, {Function? responseHandler}) {
+    
+    setResponseHandler("loginResponse", responseHandler);
+    
+    call('loginUsingUsernamePassword', [username, password]);
+
+  }
+
   void loginUsingFacebook(String accessToken, {Function? responseHandler}) {
     
     setResponseHandler("facebookLoginResponse", responseHandler);
