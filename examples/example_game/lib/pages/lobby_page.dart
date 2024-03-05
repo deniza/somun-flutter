@@ -1,10 +1,35 @@
+import 'package:example_game/managers/game_manager.dart';
+import 'package:example_game/model/model.dart';
 import 'package:example_game/pages/game_page.dart';
 import 'package:flutter/material.dart';
+import 'package:somun_flutter/somun_flutter.dart';
 
-// create a new stateless widget called LobbyPage that has a list that lists strings
-
-class LobbyPage extends StatelessWidget {
+class LobbyPage extends StatefulWidget {
   const LobbyPage({Key? key}) : super(key: key);
+
+  @override
+  State<LobbyPage> createState() => _LobbyPageState();
+}
+
+class _LobbyPageState extends State<LobbyPage> {
+
+  @override
+  void initState() {    
+    super.initState();
+    games.addListener(_updateUI);
+  }
+
+  @override
+  void dispose() {
+    games.removeListener(_updateUI);
+    super.dispose();
+  }
+
+
+  void _updateUI() {
+    setState(() {      
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,37 +37,75 @@ class LobbyPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Lobby'),
       ),
-      body: ListView(
-        children: <Widget>[
-          ListTile(
-            title: const Text('Game 1'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const GamePage()),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('Game 2'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const GamePage()),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('Game 3'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const GamePage()),
-              );
-            },
-          ),
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    child: const Text('Create New Game'),
+                    onPressed: () {
+                      _createGame();
+                    },
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    child: const Text('Logout'),
+                    onPressed: () {
+                      _logout();
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: games.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(games.getGame(index).gameName),
+                    onTap: () {
+                      _enterGame(games.getGame(index).gameId);
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+
+  void _createGame() {
+    // create a game
+  }
+
+  void _enterGame(int gameId) {
+
+    gameManager.enterGame(gameId, (accepted) {
+
+      if (accepted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const GamePage()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to enter game')),
+        );        
+      }
+
+    });
+
+  }
+
+  void _logout() {
+    // logout
+  }
+
 }

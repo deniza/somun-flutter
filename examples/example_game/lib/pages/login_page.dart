@@ -79,6 +79,8 @@ class _LoginFormState extends State<LoginForm> {
     gameManager.login(playerId, password, (success) {
       if (success) {
 
+        gameManager.getGameList();
+
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const LobbyPage()
