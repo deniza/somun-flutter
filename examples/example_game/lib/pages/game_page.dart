@@ -14,6 +14,24 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
+
+  @override
+  void initState() {    
+    super.initState();
+    games.addListener(_updateUI);
+  }
+
+  @override
+  void dispose() {
+    games.removeListener(_updateUI);
+    super.dispose();
+  }
+
+  void _updateUI() {
+    setState(() {      
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -37,16 +55,25 @@ class _GamePageState extends State<GamePage> {
 
   Widget _buildGame() {
 
+    Game game = gameManager.currentGame!;
+    bool isMyTurn = game.turnOwnerId == gameManager.playerId;
+    MoveStatus lastMoveStatus = game.gameState!.lastMoveStatus;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton(
+          child: isMyTurn ? ElevatedButton(
             child: const Text('Guess Number'),
             onPressed: () {
               _guessNumber();
             },
+          ) : Column(
+            children: [
+              lastMoveStatus == MoveStatus.targetIsBelow ? const Text('You guessed a number higher than the target') : const Text('You guessed a number lower than the target'),
+              const Text('Waiting for opponent to guess number'),
+            ],
           ),
         ),
         Padding(
@@ -85,6 +112,57 @@ class _GamePageState extends State<GamePage> {
   }
 
   void _guessNumber() {
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        TextEditingController numberController = TextEditingController();
+
+        return AlertDialog(
+          title: const Text('Guess a Number'),
+          content: TextFormField(
+            controller: numberController,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              labelText: 'Enter a number',
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              child: const Text('Submit'),
+              onPressed: () {
+                Navigator.of(context).pop(numberController.text);
+              },
+            ),
+          ],
+        );
+      },
+    ).then((value) {
+      if (value != null) {
+        // Handle the submitted number
+        int? number = int.tryParse(value);
+        if (number != null) {
+          
+          gameManager.guessNumber(number, (accepted) {
+            if (!accepted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Failed to guess number'),
+                ),
+              );
+            }
+          });
+
+        } else {
+          // Show an error message
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Invalid number'),
+            ),
+          );
+        }
+      }
+    });
   }
 
   void _leaveGame() {

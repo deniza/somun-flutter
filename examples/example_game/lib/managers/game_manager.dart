@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:example_game/model/model.dart';
 import 'package:somun_flutter/somun_flutter.dart';
 
@@ -9,8 +11,44 @@ class GameManager {
   final _port = 16666;
 
   Game? currentGame;
+  int playerId = 0;
 
-  GameManager._();
+  GameManager._() {
+
+    somun.play.setResponseHandler("gameFinished", (params) {
+      int gameId = params[0];
+      int winnerId = params[1];
+      String gameState = params[2];
+
+      Game game = games.getGameById(gameId);
+      game.setGameState(GameState(gameState));
+      game.gameState!.winnerId = winnerId;
+
+      games.notify();
+    });
+
+    somun.play.setResponseHandler("gameStateUpdated", (params) {
+      int gameId = params[0];
+      String gameState = params[1];
+
+      Game game = games.getGameById(gameId);
+      game.setGameState(GameState(gameState));
+
+      games.notify();
+    });
+
+    somun.play.setResponseHandler("turnOwnerChanged", (params) {
+      int gameId = params[0];
+      int turnOwner = params[1];
+
+      Game game = games.getGameById(gameId);
+      game.turnOwnerId = turnOwner;
+
+      games.notify();
+    });
+
+
+  }
 
   void connect() {
     somun.connect(_host, _port);
@@ -27,6 +65,7 @@ class GameManager {
       password,
       responseHandler: (params) {        
         if (params[0] == 1) {
+          playerId = params[1];
           response(true);
         } else {
           response(false);
@@ -120,5 +159,21 @@ class GameManager {
     );
 
   }  
+
+  void guessNumber(int number, Function response) async {
+
+    somun.play.makeMove(
+      currentGame!.gameId,
+      jsonEncode({'number': number}),
+      responseHandler: (params) {
+        if (params[0] == 1) {
+          response(true);
+        } else {
+          response(false);
+        }
+      }
+    );
+
+  }
 
 }
