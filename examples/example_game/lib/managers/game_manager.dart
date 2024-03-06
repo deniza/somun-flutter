@@ -8,12 +8,16 @@ class GameManager {
   final _host = 'localhost';
   final _port = 16666;
 
-  int currentGameId = -1;
+  Game? currentGame;
 
   GameManager._();
 
   void connect() {
     somun.connect(_host, _port);
+  }
+
+  void disconnect() {
+    somun.disconnect();
   }
 
   void login(String username, String password, Function response) async {
@@ -82,7 +86,16 @@ class GameManager {
       gameId,
       responseHandler: (params) {
         if (params[0] == 1) {
-          currentGameId = gameId;
+
+          bool completed = params[1] == 1;
+          int turnOwner = params[2];
+          int winner = params[3];
+          String gameState = params[4];
+
+          currentGame = games.getGameById(gameId);
+          currentGame?.turnOwnerId = turnOwner;
+          currentGame?.setGameState(GameState(gameState));
+
           response(true);
         } else {          
           response(false);
@@ -95,10 +108,10 @@ class GameManager {
   void leaveGame(Function response) async {
 
     somun.play.exitGame(
-      currentGameId,
+      currentGame!.gameId,
       responseHandler: (params) {
         if (params[0] == 1) {
-          currentGameId = -1;
+          currentGame = null;
           response(true);
         } else {
           response(false);

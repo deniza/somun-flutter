@@ -105,7 +105,13 @@ class _LobbyPageState extends State<LobbyPage> {
   }
 
   void _logout() {
-    // logout
+    
+    gameManager.disconnect();
+    Navigator.pop(context);
+
+    Future.delayed(const Duration(milliseconds: 100), () {
+      gameManager.connect();      
+    });    
   }
 
 }

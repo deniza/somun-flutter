@@ -3,6 +3,7 @@
 // and scores. and should also have options to quit game and return to lobby
 
 import 'package:example_game/managers/game_manager.dart';
+import 'package:example_game/model/model.dart';
 import 'package:flutter/material.dart';
 
 class GamePage extends StatefulWidget {
@@ -15,6 +16,9 @@ class GamePage extends StatefulWidget {
 class _GamePageState extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
+
+    Game game = gameManager.currentGame!;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Game'),
@@ -26,30 +30,57 @@ class _GamePageState extends State<GamePage> {
         ),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                child: const Text('Guess Number'),
-                onPressed: () {
-                  _guessNumber();
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                child: const Text('Leave Game'),
-                onPressed: () {
-                  _leaveGame();
-                },
-              ),
-            ),
-          ],
-        ),
+        child: game.gameState!.isFinished() ? _buildFinishGame() : _buildGame(),
       ),
+    );
+  }
+
+  Widget _buildGame() {
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+            child: const Text('Guess Number'),
+            onPressed: () {
+              _guessNumber();
+            },
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+            child: const Text('Leave Game'),
+            onPressed: () {
+              _leaveGame();
+            },
+          ),
+        ),
+      ],
+    );
+
+  }
+
+  Widget _buildFinishGame() {
+
+    Game game = gameManager.currentGame!;
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('Winner: ${game.gameState!.winnerId}'),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+            child: const Text('Leave Game'),
+            onPressed: () {
+              _leaveGame();
+            },
+          ),
+        ),
+      ],
     );
   }
 
