@@ -36,22 +36,18 @@ class GameState {
 
     jsonDecode(_json, reviver: (key, value) {
       if (key == 'winner') {
-        winnerId = _toInt(value);
+        winnerId = value as int;
       }
       else if (key == 'target') {
-        lastMoveStatus = _toInt(value) == -1 ? MoveStatus.targetIsBelow : MoveStatus.targetIsAbove;
+        lastMoveStatus = value as int == -1 ? MoveStatus.targetIsBelow : MoveStatus.targetIsAbove;
       }
       else if (key == 'numberToFind') {
-        numberToFind = _toInt(value);
+        numberToFind = value as int;
       }
       return value;
     });
 
 
-  }
-
-  int _toInt(numberObject) {    
-    return numberObject.toInt();
   }
 
   bool isFinished() {
