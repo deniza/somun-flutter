@@ -2,6 +2,7 @@ import 'package:example_game/managers/game_manager.dart';
 import 'package:example_game/pages/lobby_page.dart';
 import 'package:example_game/pages/login_page.dart';
 import 'package:example_game/pages/new_account_page.dart';
+import 'package:example_game/util/util.dart';
 import 'package:flutter/material.dart';
 
 class EntryPage extends StatefulWidget {
@@ -72,9 +73,7 @@ class _EntryPageState extends State<EntryPage> {
         ));
       } else {
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to create guest account')),
-        );
+        showSnackBar(context, 'Failed to create guest account');
 
       }
 

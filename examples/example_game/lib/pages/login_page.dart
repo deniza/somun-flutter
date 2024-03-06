@@ -1,4 +1,5 @@
 import 'package:example_game/pages/lobby_page.dart';
+import 'package:example_game/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:example_game/managers/game_manager.dart';
 
@@ -59,9 +60,7 @@ class _LoginFormState extends State<LoginForm> {
               child: ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Logging in...')),
-                    );
+                    showSnackBar(context, 'Logging in...');
                     _login(_usernameController.text, _passwordController.text);
                   }
                 },
@@ -88,10 +87,8 @@ class _LoginFormState extends State<LoginForm> {
 
       } else {
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Login failed. Please try again.')),
-        );
-
+        showSnackBar(context, 'Login failed. Please try again.');
+        
       }
     });
 

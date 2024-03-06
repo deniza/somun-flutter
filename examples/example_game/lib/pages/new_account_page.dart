@@ -1,5 +1,6 @@
 import 'package:example_game/managers/game_manager.dart';
 import 'package:example_game/pages/lobby_page.dart';
+import 'package:example_game/util/util.dart';
 import 'package:flutter/material.dart';
 
 class NewAccountPage extends StatelessWidget {
@@ -60,9 +61,7 @@ class _LoginFormState extends State<LoginForm> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     // If the form is valid, display a Snackbar.
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Processing Data')),
-                    );
+                    showSnackBar(context, 'Creating account...');
                     _createNewAccount(_usernameController.text, _passwordController.text);
                   }
                 },
@@ -86,9 +85,7 @@ class _LoginFormState extends State<LoginForm> {
         ));
 
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to create account')),
-        );
+        showSnackBar(context, 'Failed to create account');
       }
     });
   

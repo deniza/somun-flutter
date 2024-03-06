@@ -2,7 +2,7 @@ import 'package:example_game/managers/game_manager.dart';
 import 'package:example_game/model/model.dart';
 import 'package:example_game/pages/game_page.dart';
 import 'package:flutter/material.dart';
-import 'package:somun_flutter/somun_flutter.dart';
+import 'package:example_game/util/util.dart';
 
 class LobbyPage extends StatefulWidget {
   const LobbyPage({Key? key}) : super(key: key);
@@ -95,9 +95,7 @@ class _LobbyPageState extends State<LobbyPage> {
           MaterialPageRoute(builder: (context) => const GamePage()),
         );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to enter game')),
-        );        
+        showSnackBar(context, 'Failed to enter game');
       }
 
     });

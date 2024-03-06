@@ -4,6 +4,7 @@
 
 import 'package:example_game/managers/game_manager.dart';
 import 'package:example_game/model/model.dart';
+import 'package:example_game/util/util.dart';
 import 'package:flutter/material.dart';
 
 class GamePage extends StatefulWidget {
@@ -145,21 +146,12 @@ class _GamePageState extends State<GamePage> {
           
           gameManager.guessNumber(number, (accepted) {
             if (!accepted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Failed to guess number'),
-                ),
-              );
+              showSnackBar(context, 'Failed to guess number');              
             }
           });
 
         } else {
-          // Show an error message
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Invalid number'),
-            ),
-          );
+          showSnackBar(context, 'Invalid number');
         }
       }
     });
@@ -171,11 +163,7 @@ class _GamePageState extends State<GamePage> {
       if (accepted) {
         Navigator.pop(context);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Failed to leave game'),
-          ),
-        );
+        showSnackBar(context, 'Failed to leave game');
       }
     });
 
