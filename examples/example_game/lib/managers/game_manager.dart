@@ -74,19 +74,6 @@ class GameManager {
 
   }
 
-  void createGuestAccount(Function response) async {
-
-    somun.account.createGuestAccount(
-      acceptHandler: (params) {
-        response(true);
-      },
-      rejectHandler: (params) {
-        response(false);
-      }
-    );
-
-  }
-
   void createAccount(String username, String password, Function response) async {
 
     somun.account.createAccount(
