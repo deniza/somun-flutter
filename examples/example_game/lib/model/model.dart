@@ -68,6 +68,12 @@ class GameList extends ChangeNotifier {
     games.add(game);
   }
 
+  Game createGame(int gameId, String gameName) {
+    final game = Game(gameId: gameId, gameName: gameName);
+    games.add(game);
+    return game;
+  }
+
   void removeGame(Game game) {
     games.remove(game);
   }
