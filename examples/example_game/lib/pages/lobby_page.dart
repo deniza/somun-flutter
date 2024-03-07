@@ -35,6 +35,7 @@ class _LobbyPageState extends State<LobbyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('Lobby'),
       ),
       body: Center(
