@@ -47,6 +47,20 @@ class GameManager {
       games.notify();
     });
 
+    somun.play.setResponseHandler("gameCreated", (params) {
+      final gameId = params[0];
+      final playerIds = params[1];
+      final turnOwnerId = params[2];
+      final gameState = params[3];
+
+      Game game = games.createGame(gameId, "Game: $gameId");      
+      game.turnOwnerId = turnOwnerId;
+      game.setGameState(GameState(gameState));
+
+      games.notify();
+
+    });
+
 
   }
 
@@ -175,6 +189,18 @@ class GameManager {
         }
       }
     );
+
+  }
+
+  void createGame(Function response) async {
+
+    somun.play.createRandomGame(0, responseHandler: (params) {
+      if (params[0] == 1) {
+        response(true);
+      } else {
+        response(false);
+      }
+    });
 
   }
 

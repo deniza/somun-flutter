@@ -83,7 +83,17 @@ class _LobbyPageState extends State<LobbyPage> {
   }
 
   void _createGame() {
-    // create a game
+    
+    gameManager.createGame((accepted) {
+
+      if (accepted) {
+        showSnackBar(context, 'Waiting for opponent to create game...');
+      } else {
+        showSnackBar(context, 'Failed to create game');
+      }
+
+    });
+
   }
 
   void _enterGame(int gameId) {
