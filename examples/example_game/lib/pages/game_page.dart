@@ -40,7 +40,7 @@ class _GamePageState extends State<GamePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Game'),
+        title: game.gameState!.isFinished() ? const Text('Game (Finished)') : const Text('Game'),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () {
