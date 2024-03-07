@@ -80,7 +80,22 @@ class GameManager {
       username,
       password,
       acceptHandler: (params) {
-        response(true);
+        
+        playerId = params[0];        
+        final password = params[2];
+
+        somun.auth.loginUsingIdPassword(
+          playerId,
+          password,
+          responseHandler: (params) {
+            if (params[0] == 1) {
+              response(true);
+            } else {
+              response(false);
+            }
+          }
+        );        
+        
       },
       rejectHandler: (params) {
         response(false);

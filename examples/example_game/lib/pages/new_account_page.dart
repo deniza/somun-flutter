@@ -78,8 +78,8 @@ class _LoginFormState extends State<LoginForm> {
   
     gameManager.createAccount(username, password, (success) {
       if (success) {
-
-        Navigator.push(
+        
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const LobbyPage()
         ));
